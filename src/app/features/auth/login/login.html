@@ -1,0 +1,56 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="brand-header">
+      <div class="brand-logo">🛒</div>
+      <h2>Welcome Back</h2>
+      <p>Sign in to your account</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      
+      <!-- Email Field -->
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email" 
+          placeholder="user@example.com"
+          [class.is-invalid]="loginForm.controls.email.touched && loginForm.controls.email.invalid"
+        />
+        <span *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors?.['required']" class="error-msg">
+          Email is required.
+        </span>
+        <span *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors?.['email']" class="error-msg">
+          Please enter a valid email address.
+        </span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input 
+          id="password" 
+          type="password" 
+          formControlName="password" 
+          placeholder="••••••••"
+          [class.is-invalid]="loginForm.controls.password.touched && loginForm.controls.password.invalid"
+        />
+        <span *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.['required']" class="error-msg">
+          Password is required.
+        </span>
+      </div>
+
+      <!-- Backend Error Alert Banner -->
+      <div *ngIf="errorMessage()" class="alert-error">
+        ⚠️ {{ errorMessage() }}
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-primary" [disabled]="isLoading()">
+        {{ isLoading() ? 'Signing in...' : 'Login' }}
+      </button>
+      
+    </form>
+  </div>
+</div>

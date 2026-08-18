@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a routerLink="/categorias">Mi Tienda</a>
+  </div>
+
+  <ul class="navbar-links">
+    <li><a routerLink="/categorias">Categorías</a></li>
+    <li><a routerLink="/productos">Productos</a></li>
+    <li><a routerLink="/carrito">Carrito</a></li>
+    <li><a routerLink="/pagos">Mis Pagos</a></li>
+  </ul>
+
+  <div class="navbar-actions">
+    <button (click)="logout()">Cerrar Sesión</button>
+  </div>
+</nav>

@@ -1,0 +1,22 @@
+<div class="categorias-container">
+  <h2>Categorías</h2>
+
+  <div class="form-group">
+    <input
+      type="text"
+      [(ngModel)]="nuevoNombre"
+      placeholder="Nombre de la categoría"
+      (keyup.enter)="guardarCategoria()"
+    />
+    <button (click)="guardarCategoria()">Guardar</button>
+  </div>
+
+  <ul>
+    <li *ngFor="let categoria of categorias">
+      <!-- Usamos la etiqueta <a> para soportar routerLink de forma nativa -->
+      <a [routerLink]="['/categorias', categoria.id, 'productos']" style="cursor: pointer; text-decoration: none; color: inherit; display: block;">
+        {{ categoria.nombre }}
+      </a>
+    </li>
+  </ul>
+</div>

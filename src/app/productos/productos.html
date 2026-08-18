@@ -1,0 +1,51 @@
+<div class="productos-container">
+  <h2>Productos</h2>
+
+  <div class="form-group">
+    <input
+      type="text"
+      [(ngModel)]="nuevoProducto.nombre"
+      placeholder="Nombre del producto"
+    />
+    <input
+      type="number"
+      [(ngModel)]="nuevoProducto.precio"
+      placeholder="Precio"
+      min="0"
+    />
+    <input
+      type="number"
+      [(ngModel)]="nuevoProducto.stock"
+      placeholder="Stock"
+      min="0"
+    />
+    <select [(ngModel)]="nuevoProducto.categoria_id">
+      <option value="" disabled>Selecciona categoría</option>
+      <option *ngFor="let categoria of categorias" [value]="categoria.id">
+        {{ categoria.nombre }}
+      </option>
+    </select>
+
+    <div class="form-actions">
+      <button (click)="guardarProducto()">
+        {{ editandoId ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button class="btn-secondary" *ngIf="editandoId" (click)="cancelarEdicion()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <ul>
+    <li *ngFor="let producto of productos">
+      <div class="producto-info">
+        <strong>{{ producto.nombre }}</strong>
+        <span>${{ producto.precio }} · Stock: {{ producto.stock }} · {{ nombreCategoria(producto.categoria_id) }}</span>
+      </div>
+      <div class="producto-actions">
+        <button (click)="editarProducto(producto)">Editar</button>
+        <button class="btn-danger" (click)="eliminarProducto(producto.id!)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</div>
