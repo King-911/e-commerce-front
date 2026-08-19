@@ -36,6 +36,10 @@
     </div>
   </div>
 
+  <div *ngIf="mensajeCarrito" class="mensaje-carrito">
+    {{ mensajeCarrito }}
+  </div>
+
   <ul>
     <li *ngFor="let producto of productos">
       <div class="producto-info">
@@ -43,6 +47,7 @@
         <span>${{ producto.precio }} · Stock: {{ producto.stock }} · {{ nombreCategoria(producto.categoria_id) }}</span>
       </div>
       <div class="producto-actions">
+        <button (click)="agregarAlCarrito(producto)">Agregar al carrito</button>
         <button (click)="editarProducto(producto)">Editar</button>
         <button class="btn-danger" (click)="eliminarProducto(producto.id!)">Eliminar</button>
       </div>
