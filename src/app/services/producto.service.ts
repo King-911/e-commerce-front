@@ -14,9 +14,9 @@ export interface Producto {
   providedIn: 'root'
 })
 export class ProductoService {
-  private apiUrl = 'http://127.0.0.1:8000/api/productos';
-  // Definimos la raíz de la API para construir rutas relativas limpias
-  private baseApiUrl = 'http://127.0.0.1:8000/api';
+  // Cambiamos localhost por tu URL de Render
+  private apiUrl = 'https://e-commerce-back-v7cg.onrender.com/api/productos';
+  private baseApiUrl = 'https://e-commerce-back-v7cg.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
@@ -37,7 +37,6 @@ export class ProductoService {
   }
 
   getProductosPorCategoria(categoriaId: string): Observable<Producto[]> {
-    // Apunta correctamente a: http://127.0.0.1:8000/api/categorias/{id}/productos
     return this.http.get<Producto[]>(`${this.baseApiUrl}/categorias/${categoriaId}/productos`);
   }
 }
