@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarritoService, Carrito as CarritoModel, ItemCarrito } from '../services/carrito.service';
-import { ProductoService, Producto } from '../services/producto.service';
 import { AuthService } from '../core/services/auth';
 
 @Component({
@@ -13,20 +12,15 @@ import { AuthService } from '../core/services/auth';
 export class Carrito implements OnInit {
   carrito: CarritoModel | null = null;
   items: ItemCarrito[] = [];
-  productos: Producto[] = [];
   cargando = true;
 
   constructor(
     private carritoService: CarritoService,
-    private productoService: ProductoService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.productoService.getProductos().subscribe((productos) => {
-      this.productos = productos;
-      this.cargarCarrito();
-    });
+    this.cargarCarrito();
   }
 
   cargarCarrito(): void {
@@ -36,25 +30,23 @@ export class Carrito implements OnInit {
       return;
     }
 
-    this.carritoService.getCarritoPorUsuario(usuario.id).subscribe((carrito) => {
-      if (!carrito || !carrito.id) {
+    // Una sola llamada trae el carrito, sus ítems y el producto de cada ítem gracias al 'with' de Laravel
+    this.carritoService.getCarritoPorUsuario(usuario.id).subscribe({
+      next: (carrito: any) => {
+        this.carrito = carrito;
+        // Asignamos directamente los items que vienen anidados en la respuesta
+        this.items = carrito?.items || [];
         this.cargando = false;
-        return;
+      },
+      error: (err) => {
+        console.error('Error al cargar el carrito:', err);
+        this.cargando = false;
       }
-      this.carrito = carrito;
-      this.carritoService.getItemsPorCarrito(carrito.id).subscribe((items) => {
-        this.items = items;
-        this.cargando = false;
-      });
     });
   }
 
-  nombreProducto(productoId: string): string {
-    return this.productos.find(p => p.id === productoId)?.nombre ?? '—';
-  }
-
   subtotal(item: ItemCarrito): number {
-    return item.cantidad * item.precio_unitario;
+    return item.cantidad * Number(item.precio_unitario);
   }
 
   total(): number {

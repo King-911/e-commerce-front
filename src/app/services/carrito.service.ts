@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 
-export interface Carrito {
-  id?: string;
-  usuario_id: string;
+export interface Producto {
+  id: string;
+  nombre: string;
+  precio: number | string;
+  descripcion?: string;
+  imagen?: string;
 }
 
 export interface ItemCarrito {
@@ -12,7 +15,14 @@ export interface ItemCarrito {
   carrito_id: string;
   producto_id: string;
   cantidad: number;
-  precio_unitario: number;
+  precio_unitario: number | string;
+  producto?: Producto; // <-- Propiedad anidada que viene de Laravel con 'with'
+}
+
+export interface Carrito {
+  id?: string;
+  usuario_id: string;
+  items?: ItemCarrito[]; // <-- Items anidados que vienen de Laravel
 }
 
 @Injectable({
@@ -23,20 +33,18 @@ export class CarritoService {
 
   constructor(private http: HttpClient) {}
 
-  getCarritoPorUsuario(usuarioId: string): Observable<Carrito | undefined> {
-    return this.http.get<Carrito[]>(`${this.baseUrl}/carritos`).pipe(
-      map(carritos => carritos.find(c => c.usuario_id === usuarioId))
-    );
+  // Ahora consume directamente la ruta personalizada de Laravel con el 'with'
+  getCarritoPorUsuario(usuarioId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/carritos/usuario/${usuarioId}`);
   }
 
   crearCarrito(usuarioId: string): Observable<Carrito> {
     return this.http.post<Carrito>(`${this.baseUrl}/carritos`, { usuario_id: usuarioId });
   }
 
+  // Método opcional si en otro lado necesitas buscar items sueltos
   getItemsPorCarrito(carritoId: string): Observable<ItemCarrito[]> {
-    return this.http.get<ItemCarrito[]>(`${this.baseUrl}/item-carritos`).pipe(
-      map(items => items.filter(i => i.carrito_id === carritoId))
-    );
+    return this.http.get<ItemCarrito[]>(`${this.baseUrl}/item-carritos`);
   }
 
   agregarItem(item: ItemCarrito): Observable<ItemCarrito> {

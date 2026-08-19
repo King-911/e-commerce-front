@@ -10,7 +10,7 @@
   <ul *ngIf="!cargando && items.length > 0">
     <li *ngFor="let item of items">
       <div class="item-info">
-        <strong>{{ nombreProducto(item.producto_id) }}</strong>
+        <strong>{{ item.producto?.nombre ?? 'Producto sin nombre' }}</strong>
         <span>Cantidad: {{ item.cantidad }} · ${{ item.precio_unitario }} c/u · Subtotal: ${{ subtotal(item) }}</span>
       </div>
       <button class="btn-danger" (click)="eliminarItem(item.id!)">Eliminar</button>
