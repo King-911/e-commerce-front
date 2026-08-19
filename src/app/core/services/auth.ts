@@ -4,6 +4,11 @@ import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, Usuario } from '../models/usuario';
 
+export interface RegisterRequest {
+  email: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,9 +28,17 @@ export class AuthService {
         }
         localStorage.setItem('user', JSON.stringify(response.user));
         this.currentUser.set(response.user);
-        
-        // Redirige automáticamente al iniciar sesión con éxito
         this.router.navigate(['/categorias']); 
+      })
+    );
+  }
+
+  register(datos: RegisterRequest): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.API_URL}/usuarios`, datos).pipe(
+      tap((usuario) => {
+        localStorage.setItem('user', JSON.stringify(usuario));
+        this.currentUser.set(usuario);
+        this.router.navigate(['/categorias']);
       })
     );
   }

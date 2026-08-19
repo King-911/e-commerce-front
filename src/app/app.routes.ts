@@ -11,6 +11,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login').then(m => m.LoginComponent) 
   },
   { 
+    path: 'registro', 
+    loadComponent: () => import('./features/auth/registro/registro').then(m => m.RegistroComponent) 
+  },
+  { 
     path: 'productos', 
     loadComponent: () => import('./productos/productos').then(m => m.Productos) 
   },
@@ -20,11 +24,11 @@ export const routes: Routes = [
   }, 
     { 
     path: 'carrito', 
-    loadComponent: () => import('./carrito/carrito').then(m => m.Carrito) // Asegúrate que la clase se llame Carrito o CarritoComponent
+    loadComponent: () => import('./carrito/carrito').then(m => m.Carrito)
   },
   { 
     path: 'pagos', 
-    loadComponent: () => import('./pagos/pagos').then(m => m.Pagos) // Lo mismo para pagos
+    loadComponent: () => import('./pagos/pagos').then(m => m.Pagos)
   },
   { 
     path: '**', 
