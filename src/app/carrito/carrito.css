@@ -1,62 +1,107 @@
-.carrito-container, div[class*="carrito"] {
-  max-width: 900px;
-  margin: 2rem auto;
-  background-color: #121429;
-  border: 1px solid #1f213d;
-  border-radius: 1rem;
-  padding: 2rem;
-  color: #ffffff;
-  font-family: system-ui, -apple-system, sans-serif;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+.carrito-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(circle at top right, #2e1065 0%, #0f172a 60%, #030712 100%);
+  padding: 2.5rem 1.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.carrito-container h2, h2 {
-  color: #ffffff;
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  border-bottom: 2px solid #1f213d;
-  padding-bottom: 0.5rem;
+.carrito-container h2 {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 2rem 0;
+  letter-spacing: -0.02em;
+  text-align: center;
 }
 
-.carrito-container p, p {
-  color: #a3a6cc;
+.carrito-container p {
+  color: #94a3b8;
+  text-align: center;
 }
 
-/* Estilo general para tablas o listas de items en el carrito si los agregas después */
-table {
+.carrito-container ul {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+  max-width: 480px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-th, td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid #1f213d;
+.carrito-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  padding: 0.85rem 1.1rem;
+  color: #f8fafc;
+  transition: all 0.2s ease-in-out;
 }
 
-th {
-  color: #8b5cf6;
-  font-weight: 600;
+.carrito-container li:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
 }
 
-td {
-  color: #ffffff;
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
-/* Botones de acción dentro del carrito */
-button {
-  background-color: #7c3aed;
-  color: #ffffff;
+.item-info span {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.carrito-container button {
+  padding: 0.4rem 0.75rem;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  background: rgba(139, 92, 246, 0.15);
+  color: #c4b5fd;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
 }
 
-button:hover {
-  background-color: #6d28d9;
+.carrito-container button:hover {
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.btn-danger {
+  background: rgba(244, 63, 94, 0.15) !important;
+  color: #fca5a5 !important;
+}
+
+.btn-danger:hover {
+  background: rgba(244, 63, 94, 0.3) !important;
+}
+
+.carrito-total {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 1.5rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  color: #f8fafc;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: right;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+              0 0 30px rgba(124, 58, 237, 0.15);
 }

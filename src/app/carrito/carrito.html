@@ -1,4 +1,23 @@
 <div class="carrito-container">
   <h2>Carrito de Compras</h2>
-  <p>Aquí se mostrarán los productos que selecciones para comprar.</p>
+
+  <div *ngIf="cargando">Cargando carrito...</div>
+
+  <div *ngIf="!cargando && items.length === 0">
+    <p>Tu carrito está vacío. Ve a Productos y agrega algo.</p>
+  </div>
+
+  <ul *ngIf="!cargando && items.length > 0">
+    <li *ngFor="let item of items">
+      <div class="item-info">
+        <strong>{{ nombreProducto(item.producto_id) }}</strong>
+        <span>Cantidad: {{ item.cantidad }} · ${{ item.precio_unitario }} c/u · Subtotal: ${{ subtotal(item) }}</span>
+      </div>
+      <button class="btn-danger" (click)="eliminarItem(item.id!)">Eliminar</button>
+    </li>
+  </ul>
+
+  <div *ngIf="!cargando && items.length > 0" class="carrito-total">
+    Total: ${{ total() }}
+  </div>
 </div>
