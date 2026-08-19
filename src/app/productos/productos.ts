@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ProductoService, Producto } from '../services/producto.service';
 import { CategoriaService, Categoria } from '../services/categoria';
-
+import { CarritoService } from '../services/carrito.service';
+import { AuthService } from '../core/services/auth';
 @Component({
   selector: 'app-productos',
   imports: [CommonModule, FormsModule],
@@ -25,9 +26,13 @@ export class Productos implements OnInit {
 
   editandoId: string | null = null;
 
+  mensajeCarrito: string | null = null;
+
   constructor(
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
+    private carritoService: CarritoService,
+    private authService: AuthService,
     private route: ActivatedRoute
   ) {}
 
@@ -114,5 +119,35 @@ export class Productos implements OnInit {
 
   nombreCategoria(categoriaId: string): string {
     return this.categorias.find(c => c.id === categoriaId)?.nombre ?? '—';
+  }
+
+  agregarAlCarrito(producto: Producto): void {
+    const usuario = this.authService.currentUser();
+    if (!usuario) {
+      this.mensajeCarrito = 'Debes iniciar sesión para agregar productos.';
+      return;
+    }
+
+    this.carritoService.getCarritoPorUsuario(usuario.id).subscribe((carrito) => {
+      if (carrito && carrito.id) {
+        this.agregarItemAlCarrito(carrito.id, producto);
+      } else {
+        this.carritoService.crearCarrito(usuario.id).subscribe((nuevoCarrito) => {
+          this.agregarItemAlCarrito(nuevoCarrito.id!, producto);
+        });
+      }
+    });
+  }
+
+  private agregarItemAlCarrito(carritoId: string, producto: Producto): void {
+    this.carritoService.agregarItem({
+      carrito_id: carritoId,
+      producto_id: producto.id!,
+      cantidad: 1,
+      precio_unitario: producto.precio,
+    }).subscribe(() => {
+      this.mensajeCarrito = `"${producto.nombre}" agregado al carrito.`;
+      setTimeout(() => (this.mensajeCarrito = null), 2500);
+    });
   }
 }
